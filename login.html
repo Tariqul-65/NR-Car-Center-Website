@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login | NR Car Center</title>
+
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <link rel="stylesheet" href="admin-login.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="container topbar-row">
+      <div class="topbar-left">
+        <i class="fa-solid fa-mobile-screen"></i>
+        <span>WhatsApp +8801716674547 +8801716674547</span>
+      </div>
+
+      <div class="topbar-right">
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container header-row">
+      <div class="brand">
+        <img src="logo.jpeg" alt="NR Car Center Logo" class="brand-logo">
+      </div>
+
+      <nav class="nav" id="nav">
+        <a href="index.html">Home</a>
+        <a href="stock-update.html">Stock Update</a>
+        <a href="delivered-update.html">Delivered Cars Update</a>
+        <a href="chassis-search.html">Chassis Search</a>
+        <a href="team-management.html">Team Management</a>
+        <a class="active" href="admin-login.html">Admin</a>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="container">
+      <div class="auth-wrap">
+        <div class="auth-head">
+          <h1>Admin Login</h1>
+          <p>Login to manage showroom content.</p>
+          <div class="auth-underline"></div>
+        </div>
+
+        <div class="auth-card">
+          <form class="form" action="#" method="post">
+            <div class="grid grid-1">
+              <div class="field">
+                <label>Email</label>
+                <input type="email" placeholder="admin@nrcarcenter.com" required>
+              </div>
+
+              <div class="field">
+                <label>Password</label>
+                <div class="input-icon">
+                  <input id="pass" type="password" placeholder="Enter password" required>
+                  <button class="eye" type="button" id="togglePass" aria-label="Show password">
+                    <i class="fa-regular fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="row-between">
+                <label class="check">
+                  <input type="checkbox">
+                  <span>Remember me</span>
+                </label>
+                <a class="link" href="admin-forgot.html">Forgot password?</a>
+              </div>
+            </div>
+
+            <button class="btn" type="submit">
+              <i class="fa-solid fa-right-to-bracket"></i>
+              Login
+            </button>
+
+            <div class="form-foot">
+              <span>Don’t have an account?</span>
+              <a href="admin-register.html">Create account</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo">
+          <span class="footer-brand">NR Car Center</span>
+        </div>
+
+        <p class="footer-text">
+          Stay tuned for updates on our latest arrivals, exclusive deals, and expert tips
+          to help you make the best choice for your next ride. Feel free to reach out with any
+          questions or special requests.
+        </p>
+
+        <a class="read-more" href="#">Read More &nbsp; &raquo;</a>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-title">Useful Links</h4>
+        <div class="footer-line"></div>
+
+        <div class="links-2col">
+          <ul class="footer-links">
+            <li><i class="fa-solid fa-arrow-right"></i><a href="#">How to Buy</a></li>
+            <li><i class="fa-solid fa-arrow-right"></i><a href="verify.html">Verify Auction Sheet</a></li>
+            <li><i class="fa-solid fa-arrow-right"></i><a href="#">Auction Sheet Guide</a></li>
+            <li><i class="fa-solid fa-arrow-right"></i><a href="#">Shipping Info</a></li>
+            <li><i class="fa-solid fa-arrow-right"></i><a href="#">Import Regulations</a></li>
+          </ul>
+
+          <ul class="footer-links">
+            <li><i class="fa-solid fa-arrow-right"></i><a href="#">News</a></li>
+            <li><i class="fa-solid fa-arrow-right"></i><a href="#">Blog</a></li>
+            <li><i class="fa-solid fa-arrow-right"></i><a href="#">FAQ</a></li>
+            <li><i class="fa-solid fa-arrow-right"></i><a href="#">Terms &amp; Conditions</a></li>
+            <li><i class="fa-solid fa-arrow-right"></i><a href="#">Privacy Policy</a></li>
+            <li><i class="fa-solid fa-arrow-right"></i><a href="#">Refund and Return Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-title">Contact Information</h4>
+        <div class="footer-line"></div>
+
+        <div class="contact-block">
+          <p class="contact-head">Sales Managers:</p>
+          <p>01637-05 05 05</p>
+          <p>01637-04 04 04</p>
+          <p>01637-06 06 06</p>
+          <p>01711-03 03 03</p>
+          <p>01811-03 03 03</p>
+          <p>01800-03 03 03</p>
+
+          <br/>
+          <p class="contact-head">Spare Parts &amp; Service:</p>
+          <p>01800-033-111</p>
+          <p>01800-033-222</p>
+        </div>
+
+        <div class="we-accept">
+          <p class="contact-head">We Accept</p>
+          <div class="pay-icons">
+            <img src="weaccept-amex.png" alt="Amex">
+            <img src="weaccept-visa.png" alt="Visa">
+            <img src="weaccept-master.png" alt="Mastercard">
+            <img src="weaccept-bkash.png" alt="bKash">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-ad-bottom">
+      <img src="footer-ad.jpg" alt="Footer Ad" class="footer-ad-img">
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-row">
+        <p>Copyright © by NR Car Center 2020. All Rights Reserved.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const navToggle = document.getElementById("navToggle");
+    const nav = document.getElementById("nav");
+    if (navToggle && nav) navToggle.addEventListener("click", () => nav.classList.toggle("open"));
+
+    const pass = document.getElementById("pass");
+    const togglePass = document.getElementById("togglePass");
+
+    function toggle(input, btn){
+      if(!input || !btn) return;
+      btn.addEventListener("click", () => {
+        input.type = input.type === "password" ? "text" : "password";
+        btn.innerHTML = input.type === "password"
+          ? '<i class="fa-regular fa-eye"></i>'
+          : '<i class="fa-regular fa-eye-slash"></i>';
+      });
+    }
+    toggle(pass, togglePass);
+  </script>
+
+</body>
+</html>
