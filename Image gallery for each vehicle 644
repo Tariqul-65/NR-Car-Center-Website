@@ -1,0 +1,28 @@
+CREATE TABLE IF NOT EXISTS vehicle_images (
+    image_id    INT          NOT NULL AUTO_INCREMENT,
+    vehicle_id  INT          NOT NULL,
+    image_url   VARCHAR(255) NOT NULL,
+    is_primary  TINYINT(1)   NOT NULL DEFAULT 0,
+    uploaded_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ CONSTRAINT pk_vehicle_images PRIMARY KEY (image_id),
+    CONSTRAINT fk_vimg_vehicle
+        FOREIGN KEY (vehicle_id)
+        REFERENCES vehicles(vehicle_id)
+        ON DELETE CASCADE
+);
+ 
+
+
+-- Index
+CREATE INDEX idx_vimg_vehicle   ON vehicle_images (vehicle_id);
+CREATE INDEX idx_vimg_primary   ON vehicle_images (is_primary);
+INSERT INTO vehicle_images (vehicle_id, image_url, is_primary)
+VALUES
+    (1, '/images/vehicles/corolla_front.jpg',  1),
+    (1, '/images/vehicles/corolla_side.jpg',   0),
+    (1, '/images/vehicles/corolla_interior.jpg',0),
+    (2, '/images/vehicles/civic_front.jpg',    1),
+    (2, '/images/vehicles/civic_rear.jpg',     0),
+    (3, '/images/vehicles/bmwx5_front.jpg',    1);
+
+
