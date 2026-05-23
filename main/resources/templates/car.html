@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Stock Details | NR Car Center</title>
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <link rel="stylesheet" th:href="@{/car.css}">
+</head>
+<body>
+
+<div class="topbar">
+    <div class="container topbar-row">
+        <div class="topbar-left">
+            <i class="fa-solid fa-mobile-screen"></i>
+            <span>WhatsApp +8801716674547 +8801711578507</span>
+        </div>
+
+        <div class="topbar-right">
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+    </div>
+</div>
+
+<header class="header">
+    <div class="container header-row">
+        <div class="brand">
+            <img th:src="@{/logo.jpeg}" alt="NR Car Center Logo" class="brand-logo">
+        </div>
+
+        <nav class="nav" id="nav">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/about}">About Us</a>
+            <a th:href="@{/delivered}">Delivered Cars</a>
+            <a class="active" th:href="@{/stock-list}">Stock List</a>
+            <a th:href="@{/contact}">Contact</a>
+        </nav>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+</header>
+
+<main class="page">
+
+    <section class="details-head">
+        <div class="container">
+            <h1 class="details-title">Stock Details</h1>
+
+            <form class="search-wrap" th:action="@{/stock-list}" method="get">
+                <input class="search-input" type="text" name="q" placeholder="Search..." />
+                <button class="search-btn" type="submit" aria-label="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <section class="details">
+        <div class="container details-grid">
+
+            <!-- ✅ GALLERY -->
+            <aside class="gallery">
+                <div class="main-photo">
+
+                    <!-- ✅ FIX: no ternary + no nested @{...} -->
+                    <img id="mainPhoto"
+                         th:if="${images != null and !#lists.isEmpty(images)}"
+                         th:src="@{/uploads/{p}(p=${images[0].imagePath})}"
+                         alt="Car" />
+
+                    <img id="mainPhoto"
+                         th:unless="${images != null and !#lists.isEmpty(images)}"
+                         th:src="@{/car-thumb.jpg}"
+                         alt="Car" />
+
+                </div>
+
+                <div class="thumbs">
+                    <a href="javascript:void(0)"
+                       th:each="img : ${images}"
+                       th:attr="data-src=@{/uploads/{p}(p=${img.imagePath})}"
+                       onclick="setMain(this)">
+                        <img th:src="@{/uploads/{p}(p=${img.imagePath})}" alt="Car">
+                    </a>
+
+                    <!-- fallback if no images -->
+                    <a th:if="${images == null or #lists.isEmpty(images)}"
+                       href="javascript:void(0)"
+                       onclick="setMain(this)"
+                       data-src="/car-thumb.jpg">
+                        <img th:src="@{/car-thumb.jpg}" alt="Car">
+                    </a>
+                </div>
+
+
+                <a class="download"
+                   th:href="@{/car/{id}/zip(id=${car.id})}"
+                   th:if="${images != null and !#lists.isEmpty(images)}">
+                    <i class="fa-regular fa-file-zipper"></i>
+                    <span>Download pictures in a single zip file</span>
+                </a>
+
+            </aside>
+
+
+            <section class="info">
+                <div class="info-top">
+                    <div>
+                        <h2 class="car-name"
+                            th:text="${car.year + ' ' + car.make + ' ' + car.model + (car.grade != null ? ' ' + car.grade : '')}">
+                            2021 HONDA Vezel E:HEV Z
+                        </h2>
+
+                        <p class="price">
+                            Vehicle Price :
+                            <b th:text="${#numbers.formatInteger(car.price, 0, 'COMMA')}">0</b> Taka
+                        </p>
+
+                        <a class="more-btn" target="_blank"
+                           th:href="${'https://wa.me/8801716674547?text=' +
+                           'I%20want%20more%20information%20about%20this%20vehicle%20Stock%20' + car.stockId}">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            Get More Information
+                        </a>
+                    </div>
+
+                    <div class="right-actions">
+                        <span class="tag"
+                              th:classappend="${car.status == T(com.example.nrcarcenter.entity.StockStatus).IN_STOCK ? ' available' : ' upcoming'}"
+                              th:text="${car.status == T(com.example.nrcarcenter.entity.StockStatus).IN_STOCK ? 'Available' : 'Upcoming'}">
+                            Available
+                        </span>
+
+                        <a class="share-btn" href="#" onclick="sharePage();return false;">
+                            <i class="fa-brands fa-facebook-f"></i>
+                            Share
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="spec">
+                    <div class="spec-head"
+                         th:text="${'Specifications for ' + car.year + ' ' + car.make + ' ' + car.model + (car.chassisCode != null ? ' ' + car.chassisCode : '')}">
+                        Specifications for 2021 HONDA Vezel RV5-1000874
+                    </div>
+
+                    <div class="spec-grid">
+                        <div class="spec-card">
+                            <div class="spec-row"><span>Stock ID</span><a href="#" th:text="${car.stockId}">-</a></div>
+                            <div class="spec-row"><span>Maker</span><a href="#" th:text="${car.make}">-</a></div>
+                            <div class="spec-row"><span>Model</span><a href="#" th:text="${car.model}">-</a></div>
+                            <div class="spec-row"><span>Grade</span><a href="#" th:text="${car.grade != null ? car.grade : '-'}">-</a></div>
+                            <div class="spec-row"><span>Chassis Code</span><a href="#" th:text="${car.chassisCode != null ? car.chassisCode : '-'}">-</a></div>
+                            <div class="spec-row"><span>Year</span><a href="#" th:text="${car.year}">-</a></div>
+                            <div class="spec-row"><span>Color</span><a href="#" th:text="${car.color != null ? car.color : '-'}">-</a></div>
+                        </div>
+
+                        <div class="spec-card">
+                            <div class="spec-row"><span>Engine CC</span><a href="#" th:text="${car.engineCc != null ? (car.engineCc + 'CC') : '-'}">-</a></div>
+                            <div class="spec-row"><span>Fuel</span><a href="#" th:text="${car.fuel != null ? car.fuel : '-'}">-</a></div>
+                            <div class="spec-row"><span>Mileage</span><a href="#" th:text="${car.mileage != null ? car.mileage : '-'}">-</a></div>
+                            <div class="spec-row"><span>Auction Point</span><a href="#" th:text="${car.auctionPoint != null ? car.auctionPoint : '-'}">-</a></div>
+                            <div class="spec-row"><span>Transmission</span><a href="#" th:text="${car.transmission != null ? car.transmission : '-'}">-</a></div>
+                            <div class="spec-row"><span>Seats</span><a href="#" th:text="${car.seats != null ? car.seats : '-'}">-</a></div>
+                            <div class="spec-row"><span>Door</span><a href="#" th:text="${car.doors != null ? car.doors : '-'}">-</a></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ✅ DESCRIPTION (FIXED: removed car.description usage) -->
+                <div class="desc">
+                    <div class="desc-head">Description</div>
+                    <div class="desc-body">
+                        <p class="desc-title">
+                            <i class="fa-solid fa-car"></i>
+                            <span th:text="${car.make + ' ' + car.model + ' ' + car.year}">HONDA VEZEL 2021</span>
+                        </p>
+
+                        <p><b>Grade:</b> <span th:text="${car.grade != null ? car.grade : '-'}">-</span></p>
+                        <p><b>Mileage:</b> <span th:text="${car.mileage != null ? car.mileage : '-'}">-</span> <span>KM</span></p>
+                        <p><b>Color:</b> <span th:text="${car.color != null ? car.color : '-'}">-</span></p>
+
+                        <p class="desc-sub"><i class="fa-solid fa-wrench"></i> Engine Specification:</p>
+                        <ul>
+                            <li th:text="${car.engineCc != null ? 'Engine Capacity: ' + car.engineCc + ' cc' : 'Engine Capacity: -'}">Engine Capacity</li>
+                            <li th:text="${car.fuel != null ? 'Fuel Type: ' + car.fuel : 'Fuel Type: -'}">Fuel Type</li>
+                            <li th:text="${car.transmission != null ? 'Transmission: ' + car.transmission : 'Transmission: -'}">Transmission</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer" id="contact">
+    <div class="container footer-grid">
+        <div class="footer-col">
+            <div class="footer-logo">
+                <span class="footer-brand">NR Car Center</span>
+            </div>
+
+            <p class="footer-text">
+                Stay tuned for updates on our latest arrivals, exclusive deals, and expert tips
+                to help you make the best choice for your next ride. Feel free to reach out with any
+                questions or special requests.
+            </p>
+
+            <a class="read-more" href="#">Read More &nbsp; &raquo;</a>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-title">Useful Links</h4>
+            <div class="footer-line"></div>
+
+            <div class="links-2col">
+                <ul class="footer-links">
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="#">How to Buy</a></li>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="#">Verify Auction Sheet</a></li>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="#">Auction Sheet Guide</a></li>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="#">Shipping Info</a></li>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="#">Import Regulations</a></li>
+                </ul>
+
+                <ul class="footer-links">
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="#">News</a></li>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="#">Blog</a></li>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="#">FAQ</a></li>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="#">Terms &amp; Conditions</a></li>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="#">Privacy Policy</a></li>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="#">Refund and Return Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-title">Contact Information</h4>
+            <div class="footer-line"></div>
+
+            <div class="contact-block">
+                <p class="contact-head">Sales Managers:</p>
+                <p>01716-674547 (TARIQUL) [Admin]</p>
+                <p>01711-578507 (TAZUL)   [Managing Partner]</p>
+                <p>01684-200720 (NASIR)   [Managing Partner]</p>
+                <p>01764-323511 (FAHIM)   [Manager]</p>
+                <p>01816-088705 (TOHA)    [Marketing Manager]</p>
+
+                <br/>
+                <p class="contact-head">Spare Parts &amp; Service:</p>
+                <p>01974-198914(Sohel)[Tazul Automobiles]</p>
+                <p>01980-263633(Anower)[Tazul Automobiles]</p>
+            </div>
+
+            <div class="we-accept">
+                <p class="contact-head">We Accept</p>
+                <div class="pay-icons">
+                    <img th:src="@{/weaccept-amex.png}" alt="Amex">
+                    <img th:src="@{/weaccept-visa.png}" alt="Visa">
+                    <img th:src="@{/weaccept-master.png}" alt="Mastercard">
+                    <img th:src="@{/weaccept-bkash.png}" alt="bKash">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container footer-ad-bottom">
+        <img th:src="@{/footer-ad.jpg}" alt="Footer Ad" class="footer-ad-img">
+    </div>
+
+    <div class="footer-bottom">
+        <div class="container footer-bottom-row">
+            <p>Copyright © by NR Car Center 2020. All Rights Reserved.</p>
+            <div class="footer-social">
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const navToggle = document.getElementById("navToggle");
+    const nav = document.getElementById("nav");
+    if (navToggle && nav) navToggle.addEventListener("click", () => nav.classList.toggle("open"));
+
+    function setMain(a){
+      const src = a.getAttribute("data-src");
+      if(!src) return;
+      const img = document.getElementById("mainPhoto");
+      if(img) img.src = src;
+    }
+
+    async function sharePage(){
+      const url = window.location.href;
+      if(navigator.share){
+        try { await navigator.share({ title: document.title, url }); return; } catch(e){}
+      }
+      try { await navigator.clipboard.writeText(url); alert("Link copied"); } catch(e){ alert(url); }
+    }
+</script>
+
+</body>
+</html>
