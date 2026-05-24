@@ -1,0 +1,134 @@
+USE car;
+
+DROP TABLE IF EXISTS stock_images;
+DROP TABLE IF EXISTS stock_cars;
+
+CREATE TABLE stock_cars (
+    id INT NOT NULL AUTO_INCREMENT,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    stock_id VARCHAR(32) NOT NULL,
+    chassis_no VARCHAR(64) NOT NULL,
+    make VARCHAR(120) NOT NULL,
+    model VARCHAR(120) NOT NULL,
+    grade VARCHAR(60) DEFAULT NULL,
+    chassis_code VARCHAR(80) DEFAULT NULL,
+    year INT NOT NULL,
+    color VARCHAR(60) NOT NULL,
+    engine_cc INT DEFAULT NULL,
+    fuel VARCHAR(20) DEFAULT NULL,              
+    mileage INT DEFAULT NULL,
+    auction_point DECIMAL(4,1) DEFAULT NULL,     
+    status VARCHAR(16) NOT NULL,                 
+    price DECIMAL(20,2) NOT NULL,                
+    transmission VARCHAR(20) DEFAULT NULL,       
+    seats INT DEFAULT NULL,
+    doors INT DEFAULT NULL,
+    CONSTRAINT pk_stock_cars PRIMARY KEY (id),
+    CONSTRAINT uq_stock_id UNIQUE (stock_id),
+    CONSTRAINT uq_chassis_no UNIQUE (chassis_no)
+);
+
+CREATE INDEX idx_stock_stock_id ON stock_cars (stock_id);
+CREATE INDEX idx_stock_chassis  ON stock_cars (chassis_no);
+CREATE INDEX idx_stock_status   ON stock_cars (status);
+
+CREATE TABLE stock_images (
+    id INT NOT NULL AUTO_INCREMENT,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    stock_car_id INT NOT NULL,
+    image_path VARCHAR(255) NOT NULL,
+    CONSTRAINT pk_stock_images PRIMARY KEY (id),
+    CONSTRAINT fk_image_stock_car FOREIGN KEY (stock_car_id) REFERENCES stock_cars(id) ON DELETE CASCADE
+);
+
+
+
+
+INSERT INTO stock_cars (stock_id, chassis_no, make, model, grade, chassis_code, year, color, engine_cc, fuel, mileage, auction_point, status, price, transmission)
+VALUES 
+('NR-1001', 'ZSG10-001122', 'Toyota', 'Corolla Cross', 'Z Grade', 'ZSG10', 2023, 'Pearl White', 1800, 'HYBRID', 14000, 4.5, 'IN_STOCK', 3850000.00, 'AUTOMATIC'),
+('NR-1002', 'FC1-3004556', 'Honda', 'Civic Oriel', 'Turbo', 'FC1', 2022, 'Crystal Black', 1500, 'PETROL', 22000, 4.0, 'UPCOMING', 3100000.00, 'AUTOMATIC');
+
+
+USE car;
+
+CREATE TABLE IF NOT EXISTS brands (
+    brand_id INT NOT NULL AUTO_INCREMENT,
+    brand_name VARCHAR(100) NOT NULL,
+    country VARCHAR(100) DEFAULT NULL,
+    logo_url VARCHAR(255) DEFAULT NULL,
+    CONSTRAINT pk_brands PRIMARY KEY (brand_id),
+    CONSTRAINT uq_brands_name UNIQUE (brand_name)
+);
+
+CREATE INDEX idx_brands_name ON brands (brand_name);
+
+INSERT INTO brands (brand_name, country) VALUES 
+('Toyota', 'Japan'),
+('Honda', 'Japan'),
+('Nissan', 'Japan'),
+('Mercedes', 'Germany');
+
+USE car;
+
+-- 1. Upgrade stock_cars table
+ALTER TABLE stock_cars ADD COLUMN brand_id INT DEFAULT NULL;
+ALTER TABLE stock_cars ADD CONSTRAINT fk_stock_cars_brand FOREIGN KEY (brand_id) REFERENCES brands(brand_id) ON DELETE SET NULL;
+
+USE car;
+
+INSERT INTO stock_cars (brand_id, stock_id, chassis_no, make, model, grade, chassis_code, year, color, engine_cc, fuel, mileage, auction_point, status, price, transmission)
+VALUES 
+(1, 'NR-1003', 'ZSG10-009944', 'Toyota', 'Yaris Cross', 'G Grade', 'ZSG10', 2024, 'Silver', 1500, 'HYBRID', 4000, 5.0, 'IN_STOCK', 3600000.00, 'AUTOMATIC');
+
+USE car;
+
+
+DROP TABLE IF EXISTS delivered_cars;
+
+CREATE TABLE delivered_cars (
+    id INT NOT NULL AUTO_INCREMENT,
+    
+    -- Inherited fields from BaseEntity (created_at, updated_at)
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    
+    -- Fields explicitly declared in DeliveredCar.java
+    chassis_no VARCHAR(64) NOT NULL,
+    make VARCHAR(120) NOT NULL,
+    model VARCHAR(120) NOT NULL,
+    customer_name VARCHAR(120) NOT NULL,
+    delivery_date DATE NOT NULL,
+    delivery_cost DECIMAL(14,2) NOT NULL,
+    image_path VARCHAR(255) DEFAULT NULL,
+    
+    CONSTRAINT pk_delivered_cars PRIMARY KEY (id)
+);
+
+CREATE INDEX idx_delivered_chassis ON delivered_cars (chassis_no);
+CREATE INDEX idx_delivered_date    ON delivered_cars (delivery_date);
+
+
+-- 2. Upgrade delivered_cars table
+ALTER TABLE delivered_cars ADD COLUMN brand_id INT DEFAULT NULL;
+ALTER TABLE delivered_cars ADD CONSTRAINT fk_delivered_cars_brand FOREIGN KEY (brand_id) REFERENCES brands(brand_id) ON DELETE SET NULL;
+
+
+
+USE car;
+
+
+INSERT INTO delivered_cars (chassis_no, make, model, customer_name, delivery_date, delivery_cost, image_path)
+VALUES 
+('NZT260-0094812', 'Toyota', 'Premio F-Package', 'Mr. Rahat Islam', '2026-05-20', 3450000.00, NULL),
+('JH4-3029104523', 'Honda', 'Vezel Z-Grade', 'Mrs. Nusrat Jahan', '2026-05-24', 4100000.00, NULL);
+
+USE car;
+
+INSERT INTO delivered_cars (brand_id, chassis_no, make, model, customer_name, delivery_date, delivery_cost, image_path)
+VALUES 
+(2, 'FL1-1002394', 'Honda', 'Civic Hatchback', 'Alamin Hossain', '2026-05-24', 4200000.00, NULL);
+
+
