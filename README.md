@@ -100,26 +100,8 @@ Development Utilities: Spring Boot DevTools (LiveReload)
 
 Project Structure:
 
-NR_Car_Center/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/
-│   │   │       └── nrcarcenter/
-│   │   │           ├── controller/      # Web Controllers & Rest APIs
-│   │   │           ├── model/           # JPA Entities (Vehicle, User, Appointment, etc.)
-│   │   │           ├── repository/      # Spring Data JPA Repositories
-│   │   │           └── service/         # Business Logic Implementations
-│   │   └── resources/
-│   │       ├── templates/               # Thymeleaf Dynamic Views
-│   │       │   ├── dashboard.html
-│   │       │   ├── vehicles.html
-│   │       │   ├── appointments.html
-│   │       │   └── inquiries.html
-│   │       ├── static/                  # Static assets (CSS, JS, Uploaded Vehicle Images)
-│   │       └── application.properties   # Database and App Configuration
-├── pom.xml                              # Project Dependency Tree
-└── README.md
+<img width="410" height="553" alt="image" src="https://github.com/user-attachments/assets/cf6fe787-8f82-49c1-bc0e-551b6714f5df" />
+
 
 
 Database Configuration
