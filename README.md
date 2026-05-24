@@ -157,9 +157,5 @@ VIN Decoder Integration: Auto-populating car specifications via external vehicle
 
 Team Work Distribution Summary:
 Each team member owns specific database tables and additional DB-related responsibilities as listed below:
-Member Name            Student ID   DB Tables OwnedAdd
-Tariqul Islam Parbat   2023200000635  users, brands 
-Sayma Hossain Tamim    2023200000637   appointments
-Farhana Akter          2023200000644   vehicles, vehicle_images
-Md. Wasiu Rahman Siyam 2023200000646   inquiries, inquiry_replies
-Sadiya Yasmin          2023200000650   financing_requests, notifications
+<img width="684" height="485" alt="image" src="https://github.com/user-attachments/assets/9e05d26a-5267-472d-ab40-daaf6263dfbb" />
+
